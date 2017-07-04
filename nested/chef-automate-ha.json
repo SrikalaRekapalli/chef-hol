@@ -135,15 +135,15 @@
                 "description": "password"
             }
         },
-        "subnet1Ref":{
+        "subnet1Ref": {
             "type": "string",
             "defaultValue": ""
         },
-        "subnet2Ref":{
+        "subnet2Ref": {
             "type": "string",
             "defaultValue": ""
         },
-        "baseURl":{
+        "baseURl": {
             "type": "string",
             "defaultValue": ""
         }
@@ -172,7 +172,7 @@
             "location": "[resourceGroup().location]",
             "computeApiVersion": "2016-04-30-preview",
             "adminUsername": "[parameters('adminUsername')]",
-            "adminPassword":"[parameters('adminPassword')]",
+            "adminPassword": "[parameters('adminPassword')]",
             "sshKeyData": "[parameters('sshKeyData')]",
             "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
             "chefServerUserName": "delivery",
@@ -229,6 +229,10 @@
             "feNicName1": "fe-nic1",
             "feNicName2": "fe-nic2",
             "chefAutoNicName": "chefauto-nic",
+            "feSubnetPrefix": "fe-auto-subnet",
+            "subnet1Prefix": "10.7.1.0/24",
+            "subnet2Name": "be-subnet",
+            "beSubnetPrefix": "10.7.2.0/24",
             "feNsg": "fe-nsg",
             "beNsg": "be-nsg",
             "bePoolName1": "chef-ha-pool-fe",
@@ -257,9 +261,9 @@
             "followerCustomData": "[base64(concat('#cloud-config\n', '\n', 'write_files:\n', '-   encoding: b64\n', '    content: ', base64(variables('scripts').chef_backend_install_script_follower) , '\n', '    path: /etc/chef-backend/chef-backend-install.sh\n', '    permissions: 0700\n'))]",
             "automateCustomData": "[base64(concat('#cloud-config\n', '\n', 'write_files:\n', '-   encoding: b64\n', '    content: ', base64(variables('chef_automate_install_script_base')) , '\n', '    path: /etc/delivery/chef-automate-install.sh\n', '    permissions: 0700\n'))]"
         },
-        "tokens":{
-            "password":"?token=AT3pTbkibReEiaMmjf1Hvm0-5m56n4_Fks5ZZG3_wA%3D%3D",
-            "sshPublicKey":"?token=AT3pTUAmXH_BDIVmy5bLar-T2kP2-q4Sks5ZZG4owA%3D%3D"
+        "tokens": {
+            "password": "?token=AT3pTbkibReEiaMmjf1Hvm0-5m56n4_Fks5ZZG3_wA%3D%3D",
+            "sshPublicKey": "?token=AT3pTUAmXH_BDIVmy5bLar-T2kP2-q4Sks5ZZG4owA%3D%3D"
         },
         "baseURl": "[parameters('baseURl')]",
         "keyvaultResourcesURL": "[concat(variables('baseURl'),'/nested/keyvaultResource.json')]",
@@ -526,7 +530,7 @@
             "type": "string",
             "value": "[reference('publicIPAddressesResource').outputs.chefServerfqdn.value]"
         },
-        "keyvaultName":{
+        "keyvaultName": {
             "type": "string",
             "value": "[variables('keyvaultSettings').keyVaultName]"
         },
@@ -534,7 +538,7 @@
             "type": "string",
             "value": "[variables('computeSettings').chefServerUserName]"
         },
-         "chef-server-webLogin-password": {
+        "chef-server-webLogin-password": {
             "type": "string",
             "value": "The chef-server-weblogin-password stored in the keyvault,you can retrieve it using azure CLI 2.0 [az keyvault secret show --name chefdeliveryuserpassword --vault-name < keyvaultname >]"
         },
