@@ -134,6 +134,14 @@
             "metadata": {
                 "description": "password"
             }
+        },
+        "subnet1Ref":{
+            "type": "string",
+            "defaultValue": ""
+        },
+        "subnet2Ref":{
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -223,7 +231,6 @@
             "bePoolName2": "chef-ha-pool-ssh-admin",
             "felbPublicIPAddressName": "fe-pip",
             "chefAutoPublicIPAddressName": "chefauto-pip",
-            "virtualNetworkName": "chef-vnet",
             "addressPrefix": "10.7.0.0/16",
             "feSubnetName": "fe-subnet",
             "feSubnetPrefix": "10.7.2.0/24",
@@ -262,15 +269,13 @@
         "availabilitySetSResourcesURL": "[concat(variables('baseURl'),'nested/availabilitySetsResource.json?token=AT3pTdaW04OTEYiNMoNMVRZs-dgcCub0ks5ZZGw_wA%3D%3D')]",
         "publicIPAddressesResourcesURL": "[concat(variables('baseURl'),'nested/publicIPAddressResource.json?token=AT3pTdB7_6Kh0pUJoSWVKCGr6884qosFks5ZZGy9wA%3D%3D')]",
         "networkSecurityGroupsResourcesURL": "[concat(variables('baseURl'),'nested/networkSecurityGroupsResource.json?token=AT3pTXp5X6m_FyT93CIr8tXTqp-4UUhoks5ZZGzpwA%3D%3D')]",
-        "virtualNetworksResourcesURL": "[concat(variables('baseURl'),'nested/virtualNetworksResource.json?token=AT3pTaBbI5gad9V1pzHwPJSXr1F7Gfhjks5ZZG0WwA%3D%3D')]",
         "fe-loadBalancersResourcesURL": "[concat(variables('baseURl'),'nested/loadBalancersResource.json?token=AT3pTUos0xE0k88wg0CZ8VdW2iezjoWEks5ZZG1cwA%3D%3D')]",
         "fe-networkInterfacesResourcesURL": "[concat(variables('baseURl'),'nested/fe-networkInterfacesResource.json?token=AT3pTWHMKNJTvtPcnI1UrQxTtRq7ulfxks5ZZG2MwA%3D%3D')]",
         "be-networkInterfacesResourcesURL": "[concat(variables('baseURl'),'nested/be-networkInterfacesResource.json?token=AT3pTQoi0DxXhkpF1ZIt1pvET6-2JwQLks5ZZG2uwA%3D%3D')]",
         "chefAuto-networkInterfacesResourcesURL": "[concat(variables('baseURl'),'nested/chefAuto-networkInterfacesResource.json?token=AT3pTR3CbNA1uaxfYU_mxTQbYlRUoV62ks5ZZG5iwA%3D%3D')]",
         "fe-be-VmsWithExtensionsURL": "[concat(variables('baseURl'),'nested/fe-be-virtualmachines-with-extensions-',parameters('authenticationType'),'.json',variables('tokens')[parameters('authenticationType')])]",
-        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('networkSettings').virtualNetworkName)]",
-        "beSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('networkSettings').beSubnetName)]",
-        "feSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('networkSettings').feSubnetName)]",
+        "beSubnetRef": "[parameters('subnet1Ref')]",
+        "feSubnetRef": "[parameters('subnet2Ref')]",
         "felbPublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('networkSettings').felbPublicIPAddressName)]",
         "chefAutoPublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('networkSettings').chefAutoPublicIPAddressName)]",
         "deploymentApiVersion": "2015-01-01",
@@ -380,26 +385,6 @@
             }
         },
         {
-            "name": "virtualNetworksResource",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [
-                "networkSecurityGroupsResource"
-            ],
-            "properties": {
-                "mode": "incremental",
-                "templateLink": {
-                    "uri": "[variables('virtualNetworksResourcesURL')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "networkSettings": {
-                        "value": "[variables('networkSettings')]"
-                    }
-                }
-            }
-        },
-        {
             "name": "fe-loadBalancersResource",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "[variables('deploymentApiVersion')]",
@@ -428,7 +413,6 @@
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "fe-loadBalancersResource",
-                "virtualNetworksResource",
                 "networkSecurityGroupsResource"
             ],
             "properties": {
@@ -452,7 +436,6 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "virtualNetworksResource",
                 "networkSecurityGroupsResource"
             ],
             "properties": {
@@ -477,7 +460,6 @@
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "publicIPAddressesResource",
-                "virtualNetworksResource",
                 "networkSecurityGroupsResource"
             ],
             "properties": {
