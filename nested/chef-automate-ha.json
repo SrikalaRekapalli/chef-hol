@@ -232,7 +232,7 @@
             "feSubnetPrefix": "fe-auto-subnet",
             "subnet1Prefix": "10.7.1.0/24",
             "subnet2Name": "be-subnet",
-            "beSubnetPrefix": "10.7.2.0/24",
+            "beSubnetPrefix": "10.7.1.0/24",
             "feNsg": "fe-nsg",
             "beNsg": "be-nsg",
             "bePoolName1": "chef-ha-pool-fe",
