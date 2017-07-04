@@ -50,6 +50,18 @@
       "type": "string",
       "defaultValue": ""
     },
+    "storage-api-version": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "storageAccount-name": {
+      "type": "string",
+      "defaultValue": ""
+    },
     "tagvalues": {
       "type": "object",
       "defaultValue": ""
@@ -57,6 +69,19 @@
   },
   "variables": {},
   "resources": [
+      {
+      "apiVersion": "[parameters('storage-api-version')]",
+      "name": "[parameters('storageAccount-name')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[parameters('location')]",
+      "tags": {
+        "program": "[parameters('tagvalues').program]",
+        "project": "[parameters('tagvalues').project]"
+      },
+      "properties": {
+        "accountType": "[parameters('storageAccountType')]"
+      }
+    },
     {
       "apiVersion": "[parameters('network-api-version')]",
       "type": "Microsoft.Network/virtualNetworks",
