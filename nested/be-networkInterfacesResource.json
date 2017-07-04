@@ -22,7 +22,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "privateIPAllocationMethod": "Static",
-                            "privateIpAddress": "10.0.1.4",
+                            "privateIpAddress": "10.7.1.4",
                             "subnet": {
                                 "id": "[parameters('beSubnetRef')]"
                             }
@@ -49,7 +49,7 @@
                         "name": "ipconfig2",
                         "properties": {
                             "privateIPAllocationMethod": "Static",
-                            "privateIpAddress": "10.0.1.5",
+                            "privateIpAddress": "10.7.1.5",
                             "subnet": {
                                 "id": "[parameters('beSubnetRef')]"
                             }
@@ -76,7 +76,7 @@
                         "name": "ipconfig3",
                         "properties": {
                             "privateIPAllocationMethod": "Static",
-                            "privateIpAddress": "10.0.1.6",
+                            "privateIpAddress": "10.7.1.6",
                             "subnet": {
                                 "id": "[parameters('beSubnetRef')]"
                             }
